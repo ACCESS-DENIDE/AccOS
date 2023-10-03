@@ -1,0 +1,4 @@
+Windows (CMD): docker run --rm -it -v "%cd%":/root/env accos-buildenv
+Windows (PowerShell): docker run --rm -it -v "${pwd}:/root/env" accos-buildenv
+
+make build-x86_64

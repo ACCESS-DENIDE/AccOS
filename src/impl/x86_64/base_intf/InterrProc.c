@@ -1,68 +1,32 @@
 #include "InterrProc.h"
+#include "CustomDataTypes.h"
+#include "print.h"
+idt_desc_t idt[IDT_MAX_DESCRIPTORS]; // Create an array of IDT entries; aligned for performance
 
+void idt_set_descriptor(uint_8 vector, uint isr, uint_8 flags, uint_8 ist) {
+    idt_desc_t* descriptor = &idt[vector];
 
-
-struct idt_entry_t g_idt[256]; // Реальная таблица IDT
-struct idtr_t g_idtp; // Описатель таблицы для команды lidt
-
-
-void exception_handler() {
-    print_newline();
-    char mem=get_color();
-    set_color(COLOR_RED, COLOR_BLACK);
-    print_str("Called Exsception handler... processor holded.");
-    switch_color(mem);
-    __asm__ volatile ("cli");
-    __asm__ volatile ("hlt"); // Completely hangs the computer
+    descriptor->isr_low = isr & 0xFFFF;
+    descriptor->kernel_cs = GDT_OFFSET_KERNEL_CODE;
+    descriptor->ist = ist;
+    descriptor->attributes = flags;
+    descriptor->isr_mid = (isr >> 16) & 0xFFFF;
+    descriptor->isr_high = (isr >> 32) & 0xFFFFFFFF;
+    descriptor->reserved = 0;
 }
+void idt_init() {
+    idtr.base = (uintp)&idt[0];
+    idtr.limit = (uint_16)sizeof(idt_desc_t) * IDT_MAX_DESCRIPTORS - 1;
 
-void intr_reg_handler(int num, uint_16 segm_sel, uint_16 flags, intr_handler hndlr)
-{
-    g_idt[num].base_low=(uint_64)hndlr & 0xFFFF;
-    g_idt[num].kernel_cs=0x08;
-    g_idt[num].ist=0;
-    g_idt[num].attributes=flags;
-    g_idt[num].base_mid=((uint_64)hndlr >> 16) & 0xFFFF;
-    g_idt[num].base_high= ((uint_64)hndlr >> 32) & 0xFFFFFFFF;
-
-}
-
-void intr_init()
-{
-    int i;
-    int idt_count = sizeof(g_idt) / sizeof(g_idt[0]);
-    for(i = 0; i < idt_count; i++){
-        intr_reg_handler(i, GDT_CS, 0x80 | IDT_TYPE_INTR, exception_handler); // segm_sel=0x8, P=1, DPL=0, Type=Intr
+    for (uint_8 vector = 0; vector < 32; vector++) {
+        idt_set_descriptor(vector, isr_stub_table[vector], 0x8E, 1); 
+        vectors[vector] = 1;
     }
-    
-    
-   
-}
-
-void intr_start()
-{
-    int idt_count = sizeof(g_idt) / sizeof(g_idt[0]);
-    g_idtp.base = (unsigned int) (&g_idt[0]);
-    g_idtp.limit = (sizeof (struct idt_entry_t) * idt_count) - 1;
-
-    g_idtp.base = (unsigned int *)&g_idt[0];
-    g_idtp.limit = (uint_16)sizeof (struct idt_entry_t) * 256 - 1;
-    print_int(g_idtp.base);
-    print_newline();
-    print_int(g_idtp.limit);
-
-    asm volatile ("lidt %0" : : "m"(g_idt)); // load the new IDT
+    __asm__ volatile("lidt %0" : : "memory"(idtr)); // load the new IDT
+    __asm__ volatile("sti");                        // set the interrupt flag
 
 }
-
-void intr_enable()
-{
-    print_str("Interrupts enabled");
-     asm volatile ("sti"); // set the interrupt flag
-}
-
-void intr_disable()
-{
-    print_str("Interrupts disabled");
-    asm volatile ("cli"); // set the interrupt flag
+void exception_handler() {
+    print_str("Interrupted");
+     __asm__ volatile ("cli; hlt"); // Completely hangs the computer
 }

@@ -3,10 +3,10 @@
 
 void kernel_main_c(){
     clear_print();
-    intr_init();
-    intr_start();
-    intr_enable();
-
+    //intr_init();
+    //intr_start();
+    //intr_enable();
+    idt_init();
    
     set_color(COLOR_GREEN, COLOR_BLACK);
     print_str("HELLO WORLD");

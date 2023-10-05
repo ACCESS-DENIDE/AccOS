@@ -22,7 +22,10 @@ enum ConsoleColor{
 
 void clear_print();
 void set_color(char foreground, char background);
+char get_color();
+void switch_color(char newcol);
 void print_chr(char ch);
 void print_str(char* string);
+void print_int(int inp);
 void clear_row(int row_clear);
 void print_newline();

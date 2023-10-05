@@ -49,6 +49,16 @@ void set_color(char foreground, char background)
     CurColor=foreground+(background<<4);
 }
 
+char get_color()
+{
+    return CurColor;
+}
+
+void switch_color(char newcol)
+{
+    CurColor=newcol;
+}
+
 void print_chr(char ch)
 {
     if(ch== '\n'){
@@ -88,28 +98,56 @@ void print_str(char *string)
 
 }
 
+void print_int(int inp)
+{
+    char to_str[20];
+    to_str[19]='\0';
+    int next=inp;
+    int cou=1;
+    do
+    {
+        to_str[19-cou]=(next % 10)+48;
+        next=(next-(next % 10))/10;
+        cou++;
+    } while (next>9);
+   if(next!=0){
+         to_str[19 - cou] = next + 48;
+    }
+    else {
+        cou--;
+     }
+    for (int i = 0; i <= cou; i++)
+    {
+        to_str[i]=to_str[19-cou+i];
+    }
+    
+
+    print_str(to_str);
+    
+}
+
 void print_newline()
 {
     col=0;
 
     row++;
 
-     if(row<NUM_ROWS){
+     if(row<NUM_ROWS-1){
         return;
     }
     else
     {
-        for (int i = 1; i <NUM_ROWS; i++)
+        for (int i = 1; i < NUM_ROWS; i++)
         {
             for (int g = 0; g < NUM_COLS; g++)
             {
-                struct ConsChar MovCh=buffer[g+NUM_ROWS*i];
-                buffer[g+NUM_ROWS*(i-1)]=MovCh;
+                struct ConsChar MovCh=buffer[g+(NUM_COLS)*i];
+                buffer[g+(NUM_COLS)*(i-1)]=MovCh;
             }
             
         }
-        clear_row(NUM_ROWS-1);
-        row=NUM_ROWS-1;
+        clear_row(NUM_ROWS-2);
+        row=NUM_ROWS-2;
         
     }
 

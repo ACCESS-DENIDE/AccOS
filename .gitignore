@@ -1,2 +1,2 @@
 build
-dist
+dist/x86_64/kernel.bin

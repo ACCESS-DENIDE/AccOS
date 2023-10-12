@@ -18,12 +18,14 @@ void exception_handler() {
 
 void intr_reg_handler(int num, uint_16 segm_sel, uint_16 flags, intr_handler hndlr)
 {
-    g_idt[num].base_low=(uint_64)hndlr & 0xFFFF;
+    uint_64 HndlrAdr=(uint_64)hndlr;
+
+    g_idt[num].base_low=(uint_64)(HndlrAdr & 0xFFFF);
     g_idt[num].kernel_cs=0x08;
     g_idt[num].ist=0;
     g_idt[num].attributes=flags;
-    g_idt[num].base_mid=((uint_64)hndlr >> 16) & 0xFFFF;
-    g_idt[num].base_high= ((uint_64)hndlr >> 32) & 0xFFFFFFFF;
+    g_idt[num].base_mid=(uint_64)((HndlrAdr >> 16) & 0xFFFF);
+    g_idt[num].base_high= (uint_64)((HndlrAdr >> 32) & 0xFFFFFFFF);
 
 }
 
@@ -51,12 +53,13 @@ void intr_start()
     print_newline();
     print_int(g_idtp.limit);
 
-    asm volatile ("lidt %0" : : "m"(g_idt)); // load the new IDT
+    asm("lidt %0" : : "m" (g_idtp) );// load the new IDT
 
 }
 
 void intr_enable()
 {
+    print_newline();
     print_str("Interrupts enabled");
      asm volatile ("sti"); // set the interrupt flag
 }

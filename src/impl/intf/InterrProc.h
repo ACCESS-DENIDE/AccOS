@@ -2,8 +2,16 @@
 #include "CustomDataTypes.h"
 #include "print.h"
 
-#define IDT_TYPE_INTR (0x0E)
-#define IDT_TYPE_TRAP (0x0F)
+#define IDT_TYPE_INTR (0xE)
+#define IDT_TYPE_TRAP (0xF)
+//#define IDT_TYPE_TASK (0x5)
+
+#define IDT_FLAG_RING_0 (0<<5)
+#define IDT_FLAG_RING_1 (1<<5)
+#define IDT_FLAG_RING_2 (2<<5)
+#define IDT_FLAG_RING_3 (3<<5)
+#define IDT_FLAG_RING_PRESENT (0x80)
+
 #define GDT_CS (0x8)
 
 struct idt_entry_t {

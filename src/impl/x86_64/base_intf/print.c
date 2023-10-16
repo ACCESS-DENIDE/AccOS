@@ -15,7 +15,7 @@ int row=0;
 
 int CurColor=COLOR_WHITE | COLOR_BLACK<<4;
 
-void clear_row(int row_clear){
+void ClearRow(int row_clear){
     struct ConsChar mpty;
     mpty.color=CurColor;
     mpty.symb=' ';
@@ -32,37 +32,37 @@ void clear_row(int row_clear){
 
 
 
-void clear_print()
+void ClearPrint()
 {
    
     for (int i = 0; i < NUM_ROWS; i++)
     {
-        clear_row(i);
+        ClearRow(i);
     }
     col=0;
     row=0;
 
 }
 
-void set_color(char foreground, char background)
+void SetPrintColor(char foreground, char background)
 {
     CurColor=foreground+(background<<4);
 }
 
-char get_color()
+char GetPrintColor()
 {
     return CurColor;
 }
 
-void switch_color(char newcol)
+void SwitchPrintColor(char newcol)
 {
     CurColor=newcol;
 }
 
-void print_chr(char ch)
+void PrintChar(char ch)
 {
     if(ch== '\n'){
-        print_newline();
+        PrintNewLine();
         return;
     }
 
@@ -76,13 +76,13 @@ void print_chr(char ch)
     col++;
 
     if(col==NUM_COLS){
-       print_newline();
+       PrintNewLine();
     }
 
    
 }
 
-void print_str(char *string)
+void PrintString(char *string)
 {
     for (int i = 0; 1; i++)
     {
@@ -92,14 +92,19 @@ void print_str(char *string)
             return;
         }
 
-        print_chr(ch);
+        PrintChar(ch);
     }
     
 
 }
 
-void print_int(int inp)
+void PrintInt(int inp)
 {
+    int flag=0;
+    if(inp<0){
+        inp=inp*(-1);
+        flag=1;
+    }
     char to_str[20];
     to_str[19]='\0';
     int next=inp;
@@ -121,12 +126,14 @@ void print_int(int inp)
         to_str[i]=to_str[19-cou+i];
     }
     
-
-    print_str(to_str);
+    if(flag){
+        PrintChar('-');
+    }
+    PrintString(to_str);
     
 }
 
-void print_newline()
+void PrintNewLine()
 {
     col=0;
 
@@ -146,7 +153,7 @@ void print_newline()
             }
             
         }
-        clear_row(NUM_ROWS-2);
+        ClearRow(NUM_ROWS-2);
         row=NUM_ROWS-2;
         
     }

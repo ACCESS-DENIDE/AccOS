@@ -16,3 +16,20 @@ long_mode_start:
     call kernel_main_c
 
     hlt
+
+
+popa:
+    pop rax
+    pop rcx
+    pop rdx
+    pop r8
+    pop r11
+    ret
+
+pusha:
+    push rax
+    push rcx
+    push rdx
+    push r8
+    push r11
+    ret

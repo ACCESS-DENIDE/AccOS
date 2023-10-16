@@ -1,6 +1,6 @@
 #include "DevicePortManager.h"
 
-uint_8 GetDataFromPort (uint_16 port) // Чтение из порта
+uint_8 ReadDataFromPort (uint_16 port) // Чтение из порта
 {
     uint_8 data;
     asm volatile ("inb %w1, %b0" : "=a" (data) : "Nd" (port));

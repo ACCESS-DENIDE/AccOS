@@ -20,12 +20,12 @@ enum ConsoleColor{
 
 };
 
-void clear_print();
-void set_color(char foreground, char background);
-char get_color();
-void switch_color(char newcol);
-void print_chr(char ch);
-void print_str(char* string);
-void print_int(int inp);
-void clear_row(int row_clear);
-void print_newline();
+void ClearPrint();
+void SetPrintColor(char foreground, char background);
+char GetPrintColor();
+void SwitchPrintColor(char newcol);
+void PrintChar(char ch);
+void PrintString(char* string);
+void PrintInt(int inp);
+void ClearRow(int row_clear);
+void PrintNewLine();

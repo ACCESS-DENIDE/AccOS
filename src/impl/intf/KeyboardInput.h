@@ -1,12 +1,17 @@
 #pragma once
 
 #include "DevicePortManager.h"
-#include "InterrProc.h"
-#include "print.h"
-#include "asmCompp.h"
 
 #define PIC1_PORT (0x20)
 
-void keyb_init();
 
-void keyb_handler();
+
+void KeyboardInit();
+
+void OnKeyEvent(uint_8 event_code);
+
+char GetKey();
+char ReadKey();
+char* ReadLine();
+
+uint_8 InterpritateCode(uint_8 code, char* symb);

@@ -16,6 +16,8 @@ start:
     call setup_paging
     call enable_paiging_longmode
 
+    cli
+
     lgdt [GDT64.Pointer]
     jmp GDT64.Code:long_mode_start
 
@@ -101,21 +103,24 @@ setup_paging:
     ret
 
 enable_paiging_longmode:
-    mov eax, page_tab_l4
-    mov cr3, eax
+    mov ebx, cr0
+    or ebx, ~(1<<31)
+    mov cr0, ebx
 
-    mov eax, cr4
-    or eax, 1<<5
-    mov cr4, eax
+    mov edx, cr4
+    or edx, (1<<5)
+    mov cr4, edx
 
     mov ecx, 0xC0000080
     rdmsr
-    or eax, 1<<8
+    or eax, (1<<8)
     wrmsr
 
-    mov eax, cr0
-    or eax, 1<<31
-    mov cr0, eax
+    mov eax, page_tab_l4
+    mov cr3, eax
+
+    or ebx, (1 << 31) | (1 << 0)
+    mov cr0, ebx
 
     ret
     

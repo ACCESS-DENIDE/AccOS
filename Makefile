@@ -15,7 +15,7 @@ $(kernel_object_files): build/kernel/%.o : src/impl/kernel/%.c
 
 $(x86_64_c_object_files): build/x86_64/base_intf/%.o : src/impl/x86_64/base_intf/%.c
 	mkdir -p $(dir $@) && \
-	x86_64-elf-gcc -c -I src/impl/intf -ffreestanding $(patsubst build/x86_64/base_intf/%.o, src/impl/x86_64/base_intf/%.c, $@) -o $@
+	x86_64-elf-gcc -c -I src/impl/intf -ffreestanding -mgeneral-regs-only $(patsubst build/x86_64/base_intf/%.o, src/impl/x86_64/base_intf/%.c, $@) -o $@
 
 $(x86_64_asm_object_files): build/x86_64/%.o : src/impl/x86_64/%.asm
 	mkdir -p $(dir $@) && \

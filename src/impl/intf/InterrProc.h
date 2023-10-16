@@ -1,6 +1,9 @@
 #pragma once
 #include "CustomDataTypes.h"
 #include "print.h"
+#include "asmCompp.h"
+
+#define INTERRUPT_HANDLER __attribute__((interrupt)) void
 
 #define IDT_TYPE_INTR (0xE)
 #define IDT_TYPE_TRAP (0xF)
@@ -31,12 +34,11 @@ struct idt_entry_t {
 } __attribute__((packed)) ;
 
 
-typedef void (*intr_handler)();
+typedef INTERRUPT_HANDLER (*intr_handler)(struct interrupt_frame* frame);
 
-__attribute__((noreturn))
-void exception_handler();
-void intr_reg_handler(int num, uint_16 segm_sel, uint_16 flags, intr_handler hndlr);
-void intr_init();
-void intr_start();
-void intr_enable();
-void intr_disable();
+INTERRUPT_HANDLER DefaultIntrHandlr(struct interrupt_frame* frame);
+void IntrReg(int num, uint_16 segm_sel, uint_16 flags, intr_handler hndlr);
+void IntrFill();
+void SetIDT();
+void IntrEnable();
+void IntrDisable();

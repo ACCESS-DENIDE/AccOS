@@ -1,23 +1,39 @@
 #include "print.h"
-#include "InterrProc.h"
-#include "KeyboardInput.h"
+#include "DefaultInterManager.h"
 
 void kernel_main_c(){
-    clear_print();
-    intr_init();
-    keyb_init();
-    intr_start();
-    intr_enable();
+    ClearPrint();
+    IntrFill();
+    RegisterDefaultIDT();
+    KeyboardInit();
+    SetIDT();
+    IntrEnable();
 
    
-    set_color(COLOR_GREEN, COLOR_BLACK);
-    print_str("HELLO WORLD");
-    print_newline();
+    SetPrintColor(COLOR_GREEN, COLOR_BLACK);
+    PrintString("HELLO WORLD");
+    PrintNewLine();
+ 
+    SetPrintColor(COLOR_LIGHT_GRAY, COLOR_BLACK);
+   //int g= 12/0;
+   int_64 cou=0;
+
+   PrintString(ReadLine());
+   PrintString(ReadLine());
     do
-    {
-        /* code */
+    {   
+        char swtch=GetKey();
+        if(swtch=='g'){
+            SetPrintColor(COLOR_LIGHT_GREEN, COLOR_BLACK);
+        }
+        else{
+            SetPrintColor(COLOR_LIGHT_GRAY, COLOR_BLACK);
+        }
+        cou++;
+        PrintInt(cou);
+        PrintNewLine();
     } while (1);
     
-    //int g= 12/0;
+    
     
 }

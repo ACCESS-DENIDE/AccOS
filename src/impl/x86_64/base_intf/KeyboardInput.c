@@ -17,6 +17,9 @@ int_8 flag_k=0;
 
 bool read_line=0;
 
+bool shift_dwn=0;
+bool ctrl_dwn=0;
+bool alt_dwn=0;
 
 void KeyboardInit()
 {
@@ -107,24 +110,40 @@ void OnKeyEvent(uint_8 event_code)
                     break;
                 
                 case 9: /*Tab*/
+                    GetCursor(&mem_x, &mem_y);
+                    int step=mem_x % 8;
+                    mem_x=mem_x+(8-step);
+                    int m=0;
+                    GetMax(&holder, &m);
+
+                    if(mem_x>holder-1){
+                        mem_x=0;
+                        mem_y++;
+                    }
+
+                    SetCursor(mem_x, mem_y);
 
                     break;
                 
                 case 17: /*Ctrl*/
-
+                    ctrl_dwn=1;
                     break;
                 
                 case 15: /*Shift*/
-
+                    shift_dwn=1;
                     break;
                 
                 case 14: /*Alt*/
-
+                    alt_dwn=1;
                     break;
                 
                 default:
                     line[size]=new_chr;
                     size++;
+
+                    if(shift_dwn){
+                        new_char+=32;
+                    }
 
                     mem_x=0;
                     mem_y=0;
@@ -153,6 +172,32 @@ void OnKeyEvent(uint_8 event_code)
     {
         pressed_key=0;
         flag_k=0;
+
+         switch (new_chr)
+                {
+                case 8: /*Backspace*/
+                   
+                    break;
+                
+                case 9: /*Tab*/
+                   break;
+                
+                case 17: /*Ctrl*/
+                    ctrl_dwn=0;
+                    break;
+                
+                case 15: /*Shift*/
+                    shift_dwn=0;
+                    break;
+                
+                case 14: /*Alt*/
+                    alt_dwn=0;
+                    break;
+                
+                default:
+                
+                    break;
+                }
     }
 }
 

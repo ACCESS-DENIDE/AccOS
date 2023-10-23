@@ -49,6 +49,26 @@ void SetPrintColor(char foreground, char background)
     CurColor=foreground+(background<<4);
 }
 
+void GetCursor(uint_8 *x, uint_8 *y)
+{
+    (*x)=col;
+    (*y)=row;
+}
+
+void SetCursor(uint_8 x, uint_8 y)
+{
+    col=x;
+    if(x>NUM_COLS-1){
+        col=NUM_COLS-1;
+    }
+
+    row=y;
+    if(y>NUM_ROWS-1){
+        row=NUM_ROWS-1;
+    }
+
+}
+
 char GetPrintColor()
 {
     return CurColor;
@@ -158,4 +178,10 @@ void PrintNewLine()
         
     }
 
+}
+
+void GetMax(uint_8 *x, uint_8 *y)
+{
+     (*x)=NUM_COLS;
+    (*y)=NUM_ROWS;
 }

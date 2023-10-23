@@ -11,3 +11,5 @@ typedef unsigned int uint_32;
 typedef unsigned long long uint_64;
 
 struct interrupt_frame;
+
+typedef unsigned char bool;

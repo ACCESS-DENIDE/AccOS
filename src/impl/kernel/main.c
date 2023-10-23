@@ -18,11 +18,14 @@ void kernel_main_c(){
    //int g= 12/0;
    int_64 cou=0;
 
-   PrintString(ReadLine());
-   PrintString(ReadLine());
-    do
+    PrintString(ReadLine());
+    PrintString(ReadLine());
+
+    
+   /* do
     {   
-        char swtch=GetKey();
+        char swtch='0';
+        swtch=GetKey();
         if(swtch=='g'){
             SetPrintColor(COLOR_LIGHT_GREEN, COLOR_BLACK);
         }
@@ -32,7 +35,7 @@ void kernel_main_c(){
         cou++;
         PrintInt(cou);
         PrintNewLine();
-    } while (1);
+    } while (1);*/
     
     
     

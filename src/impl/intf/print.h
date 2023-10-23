@@ -1,5 +1,7 @@
 #pragma once
 
+#include "CustomDataTypes.h"
+
 enum ConsoleColor{
     COLOR_BLACK = 0,
     COLOR_BLUE = 1,
@@ -22,6 +24,8 @@ enum ConsoleColor{
 
 void ClearPrint();
 void SetPrintColor(char foreground, char background);
+void GetCursor(uint_8* x, uint_8* y);
+void SetCursor(uint_8 x, uint_8 y);
 char GetPrintColor();
 void SwitchPrintColor(char newcol);
 void PrintChar(char ch);
@@ -29,3 +33,4 @@ void PrintString(char* string);
 void PrintInt(int inp);
 void ClearRow(int row_clear);
 void PrintNewLine();
+void GetMax(uint_8* x, uint_8* y);

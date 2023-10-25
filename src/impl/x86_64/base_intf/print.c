@@ -44,7 +44,7 @@ void ClearPrint()
 
 }
 
-void SetPrintColor(char foreground, char background)
+void SetPrintColor(uint_8 foreground, uint_8 background)
 {
     CurColor=foreground+(background<<4);
 }
@@ -74,12 +74,26 @@ char GetPrintColor()
     return CurColor;
 }
 
-void SwitchPrintColor(char newcol)
+void SwitchPrintColor(uint_8 newcol)
 {
     CurColor=newcol;
 }
 
 void PrintChar(char ch)
+{
+    PrintCharSavePos(ch);
+
+    col++;
+
+    if(col==NUM_COLS){
+        
+        PrintNewLine();
+    }
+
+   
+}
+
+void PrintCharSavePos(char ch)
 {
     if(ch== '\n'){
         PrintNewLine();
@@ -93,13 +107,6 @@ void PrintChar(char ch)
 
     buffer[col+NUM_COLS*row]=mpty;
 
-    col++;
-
-    if(col==NUM_COLS){
-       PrintNewLine();
-    }
-
-   
 }
 
 void PrintString(char *string)
@@ -184,4 +191,32 @@ void GetMax(uint_8 *x, uint_8 *y)
 {
      (*x)=NUM_COLS;
     (*y)=NUM_ROWS;
+}
+
+void ShiftCursor(int x, int y)
+{
+    int vert_shift=Floor(x, NUM_COLS)+y;
+    int hor_shift=x % NUM_COLS;
+
+    row+=vert_shift;
+
+    col+=hor_shift;
+
+    if(row<0){
+        row=0;
+    }else if (row>NUM_ROWS-1)
+    {
+        row=NUM_ROWS-1;
+    }
+    
+
+    if(col<0){
+        col=NUM_COLS+col;
+    }
+    else if(col>NUM_COLS-1){
+        col=NUM_COLS-1;
+    }
+
+
+    
 }

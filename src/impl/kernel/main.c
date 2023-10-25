@@ -1,5 +1,7 @@
 #include "print.h"
 #include "DefaultInterManager.h"
+#include "MemoryManager.h"
+#include "asmCompp.h"
 
 void kernel_main_c(){
     ClearPrint();
@@ -8,6 +10,7 @@ void kernel_main_c(){
     KeyboardInit();
     SetIDT();
     IntrEnable();
+    InitAll();
 
    
     SetPrintColor(COLOR_GREEN, COLOR_BLACK);
@@ -15,11 +18,29 @@ void kernel_main_c(){
     PrintNewLine();
  
     SetPrintColor(COLOR_LIGHT_GRAY, COLOR_BLACK);
-   //int g= 12/0;
+   
    int_64 cou=0;
+   char* str=NULL;
 
-    PrintString(ReadLine());
-    PrintString(ReadLine());
+    str = (char*)MemAll(2);
+
+    /*do
+    {
+        str[cou]=ReadKey();
+        cou++;
+        str[cou]='\0';
+        str=(char*)MemReal(str, cou+2, 1);
+        PrintString(str);
+        PrintNewLine();
+    } while (1);*/
+    
+    do
+    {
+        PrintString(ReadLine());
+    } while (1);
+    
+    
+    
 
     
    /* do

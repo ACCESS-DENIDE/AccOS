@@ -7,7 +7,7 @@ char CCodes[]={0,27,'1','2','3','4','5','6','7','8','9','0','-','=', 8,
 'a','s','d','f','g','h','j','k','l',';', 39 , 96 , 15 ,92
 ,'z','x','c','v','b','n','m',',','.','/', 14, '*', 17, ' '};
 
-char line[1024];
+char* line;
 int size=0;
 
 char pressed_key='\0';
@@ -40,18 +40,6 @@ void OnKeyEvent(uint_8 event_code)
                 line[size]='\0';
                 flag_l=1;
                 size=0;
-                GetCursor(&mem_x, &mem_y);
-                    
-                    mem_x--;
-
-                    if(mem_x<0){
-                        GetMax(&mem_x, &holder);
-                        mem_x--;
-                        mem_y--;
-                    }
-
-                    SetCursor(mem_x, mem_y);
-                    PrintChar(' ');
                 PrintNewLine();
             }
             else
@@ -62,66 +50,25 @@ void OnKeyEvent(uint_8 event_code)
                 switch (new_chr)
                 {
                 case 8: /*Backspace*/
-                    size--;
-                    line[size]='\0';
-                    
-                    mem_x=0;
-                    mem_y=0;
-                  
-                    GetCursor(&mem_x, &mem_y);
-                    mem_x--;
-                    mem_x--;
 
-                    switch (mem_x)
-                    {
-                    case -1:
-                        mem_y--;
-                        GetMax(&mem_x, &holder);
-                        mem_x--;
-                        break;
-                    case -2:
-                        mem_y--;
-                        GetMax(&mem_x, &holder);
-                        mem_x--;
-                        mem_x--;
-                        break;
-                    
-                    default:
-                        break;
+                    if(size>0){
+                       
+                        line[size]=' ';
+                        size--;
+                        ShiftCursor(-1, 0);
+                        PrintCharSavePos(' ');
                     }
-
-                    
-                    SetCursor(mem_x, mem_y);
-                    PrintChar(219);
-                    PrintChar(' ');
-
-                     GetCursor(&mem_x, &mem_y);
-                    
-                    mem_x--;
-
-                    if(mem_x<0){
-                        GetMax(&mem_x, &holder);
-                        mem_x--;
-                        mem_y--;
-                    }
-
-                    SetCursor(mem_x, mem_y);
 
                     break;
                 
                 case 9: /*Tab*/
                     GetCursor(&mem_x, &mem_y);
                     int step=mem_x % 8;
-                    mem_x=mem_x+(8-step);
-                    int m=0;
-                    GetMax(&holder, &m);
 
-                    if(mem_x>holder-1){
-                        mem_x=0;
-                        mem_y++;
+                    if(step==0){
+                        step=8;
                     }
-
-                    SetCursor(mem_x, mem_y);
+                    ShiftCursor(step, 0);
 
                     break;
                 
@@ -138,29 +85,20 @@ void OnKeyEvent(uint_8 event_code)
                     break;
                 
                 default:
-                    line[size]=new_chr;
-                    size++;
+                    
 
                     if(shift_dwn){
-                        new_char+=32;
+                        new_chr-=32;
                     }
+                    line[size]=new_chr;
+                    size++;
+                    int cur_size=BlocSize(line);
+                    if(!(size+1<cur_size)){
 
-                    mem_x=0;
-                    mem_y=0;
-                    GetCursor(&mem_x, &mem_y);
-                    
-                    mem_x--;
+                        line=(char*)MemReal(line, size+11, 1);
 
-                    if(mem_x<0){
-                        GetMax(&mem_x, &holder);
-                        mem_x--;
-                        mem_y--;
                     }
-
-                    SetCursor(mem_x, mem_y);
-
                     PrintChar(new_chr);
-                    PrintChar(219);
                     break;
                 }
 
@@ -217,8 +155,11 @@ char ReadKey()
 }
 
 char *ReadLine()
-{
-    PrintChar(219);
+{   
+    Free(line);
+    
+    line=(char*)MemAll(10);
+
     read_line=1;
     do
     {

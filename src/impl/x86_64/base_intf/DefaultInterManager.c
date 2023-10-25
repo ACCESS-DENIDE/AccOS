@@ -123,18 +123,20 @@ INTERRUPT_HANDLER DoubleFault(struct interrupt_frame* frame)
 INTERRUPT_HANDLER KeyboardInter(struct interrupt_frame* frame)
 {
      
-    //PrintNewLine();
-    //char mem=GetPrintColor();
-    //SetPrintColor(COLOR_RED, COLOR_BLACK);
-    //PrintString("Keyboard Input.");
-    //PrintNewLine();
-    //SwitchPrintColor(mem);
+    /*PrintNewLine();
+    char mem=GetPrintColor();
+    SetPrintColor(COLOR_RED, COLOR_BLACK);
+    PrintString("Keyboard Input.");
+    PrintNewLine();
+    SwitchPrintColor(mem);*/
     if (ReadDataFromPort(0x64) & 0x01)
     {
         uint_8 scan_code;
         uint_8 state;
         scan_code = ReadDataFromPort(0x60); // Считывание символа с PS/2 клавиатуры
         OnKeyEvent(scan_code);
+        
+        
     }
     
 

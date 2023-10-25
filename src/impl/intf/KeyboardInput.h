@@ -2,6 +2,7 @@
 
 #include "DevicePortManager.h"
 #include "print.h"
+#include "MemoryManager.h"
 
 #define PIC1_PORT (0x20)
 

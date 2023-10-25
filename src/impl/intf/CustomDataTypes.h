@@ -13,3 +13,5 @@ typedef unsigned long long uint_64;
 struct interrupt_frame;
 
 typedef unsigned char bool;
+
+#define NULL ((void*)0)

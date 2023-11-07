@@ -2,6 +2,8 @@
 #include "DefaultInterManager.h"
 #include "MemoryManager.h"
 #include "asmCompp.h"
+#include "MiniMath.h"
+#include "TextProcessors.h"
 
 void kernel_main_c(){
     ClearPrint();
@@ -14,50 +16,66 @@ void kernel_main_c(){
 
    
     SetPrintColor(COLOR_GREEN, COLOR_BLACK);
-    PrintString("HELLO WORLD");
+    PrintString("HELLO USER");
     PrintNewLine();
- 
-    SetPrintColor(COLOR_LIGHT_GRAY, COLOR_BLACK);
-   
-   int_64 cou=0;
-   char* str=NULL;
 
-    str = (char*)MemAll(2);
+    char * command;
+    char * buff;
 
-    /*do
-    {
-        str[cou]=ReadKey();
-        cou++;
-        str[cou]='\0';
-        str=(char*)MemReal(str, cou+2, 1);
-        PrintString(str);
-        PrintNewLine();
-    } while (1);*/
-    
     do
     {
-        PrintString(ReadLine());
+        command=ReadLine();
+
+        SplitIterration(command, buff, ' ', 0);
+
+        AlignText(buff);
+
+
+
+        if (CompareStrings(buff, "info")) {
+                PrintString("Made by Rock");
+                PrintNewLine();
+        }
+        else if (CompareStrings(buff, "expr")) {
+	        int err = 0;
+	        SplitIterration(command, buff, ' ', 1);
+	        err= ProcessString(buff);
+	        if (err <0) {
+                switch (err)
+                {
+                case(-1):
+                     PrintString("Err. Zero division");
+                PrintNewLine();
+                    break;
+                case(-2):
+                    PrintString("Err. Int overflow");
+                PrintNewLine();
+                    break;
+                default:
+                    break;
+                }
+		
+	        }
+	        else {
+		         PrintString(buff);
+                PrintNewLine();
+            }
+        }
+        else if (CompareStrings(buff, "shutdown")) {
+            break;
+        }
+        else if (CompareStrings(buff, "sysyphus")) {
+            
+        }
+        else {
+             PrintString("Command not found? go wash your balls");
+                PrintNewLine();
+        }
+
     } while (1);
     
-    
-    
-
-    
-   /* do
-    {   
-        char swtch='0';
-        swtch=GetKey();
-        if(swtch=='g'){
-            SetPrintColor(COLOR_LIGHT_GREEN, COLOR_BLACK);
-        }
-        else{
-            SetPrintColor(COLOR_LIGHT_GRAY, COLOR_BLACK);
-        }
-        cou++;
-        PrintInt(cou);
-        PrintNewLine();
-    } while (1);*/
-    
+ 
+    SetPrintColor(COLOR_LIGHT_GRAY, COLOR_BLACK);
     
     
 }

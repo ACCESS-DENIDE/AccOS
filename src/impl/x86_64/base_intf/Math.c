@@ -39,7 +39,7 @@ int Ceiling(int a, int b)
     return ret;
 }
 
-int Abs(int a)
+/*int Abs(int a)
 {
     if(a>0){
         return a;
@@ -48,4 +48,4 @@ int Abs(int a)
         a=a*(-1);
         return a;
     }
-}
+}*/

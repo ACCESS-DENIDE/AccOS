@@ -88,7 +88,26 @@ void OnKeyEvent(uint_8 event_code)
                     
 
                     if(shift_dwn){
-                        new_chr-=32;
+                        switch (new_chr)
+                        {
+                        case 61:
+                            new_chr=43;
+                            break;
+                        case 48:
+                            new_chr=41;
+                            break;
+                        case 57:
+                            new_chr=40;
+                            break;
+                        case 54:
+                            new_chr=94;
+                            break;
+                        
+                        default:
+                             new_chr-=32;
+                            break;
+                        }
+                       
                     }
                     line[size]=new_chr;
                     size++;

@@ -1,4 +1,5 @@
 #include "MiniMath.h"
+#include "print.h"
 
 int_64 DivFlor(int a, int b)
 {
@@ -92,7 +93,6 @@ int_64 Abs(int a)
 
 int ProcessString(char* string)
 {
-    
     int link = 0;
     int link_end = 0;
     int prior = 0;
@@ -215,6 +215,7 @@ int ProcessString(char* string)
 
 int SimpleProcess(char* string)
 {
+
     MinusCollapse(string);
     int err = 0;
     int ret = -1;

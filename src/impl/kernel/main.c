@@ -31,7 +31,6 @@ void kernel_main_c(){
         AlignText(buff);
 
 
-
         if (CompareStrings(buff, "info")) {
                 PrintString("Made by Rock");
                 PrintNewLine();

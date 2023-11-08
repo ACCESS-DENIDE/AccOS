@@ -184,7 +184,8 @@ INTERRUPT_HANDLER GeneralProtection(struct interrupt_frame* frame)
     PrintNewLine();
     char mem=GetPrintColor();
     SetPrintColor(COLOR_RED, COLOR_BLACK);
-    PrintString("General Protection Fault.");
+    PrintString("General Protection Fault. ");
+    PrintInt(frame);
     SwitchPrintColor(mem);
      
 }

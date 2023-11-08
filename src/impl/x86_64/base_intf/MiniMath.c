@@ -112,9 +112,11 @@ int ProcessString(char* string)
     do
     {
 
+
         if (Find(string, '(', 0) == -1) {
             break;
         }
+
 
         cou = 0;
         prior_mem = 0;

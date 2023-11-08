@@ -37,3 +37,4 @@ void ClearRow(int row_clear);
 void PrintNewLine();
 void GetMax(uint_8* x, uint_8* y);
 void ShiftCursor(int x, int y);
+void ColorLoader();

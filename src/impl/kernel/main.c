@@ -13,9 +13,10 @@ void kernel_main_c(){
     SetIDT();
     IntrEnable();
     InitAll();
-
+    ColorLoader();
    
-    SetPrintColor(COLOR_GREEN, COLOR_BLACK);
+  
+
     PrintString("HELLO USER");
     PrintNewLine();
 

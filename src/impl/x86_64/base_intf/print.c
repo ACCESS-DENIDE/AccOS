@@ -220,3 +220,42 @@ void ShiftCursor(int x, int y)
 
     
 }
+
+void ColorLoader()
+{
+     PrintString("Chose color: 1-Gray, 2-White, 3-Red, 4-Green, 5-Blue, 6-Black, 7-Yellow");
+
+    char new_col=ReadKey();
+
+    switch (new_col)
+    {
+    case '1':
+        SetPrintColor(COLOR_LIGHT_GRAY, COLOR_BLACK);
+        break;
+    case '2':
+        SetPrintColor(COLOR_WHITE, COLOR_BLACK);
+        break;
+    case '3':
+        SetPrintColor(COLOR_RED, COLOR_BLACK);
+        break;
+    case '4':
+        SetPrintColor(COLOR_GREEN, COLOR_BLACK);
+        break;
+    case '5':
+        SetPrintColor(COLOR_BLUE, COLOR_BLACK);
+        break;
+    case '6':
+        SetPrintColor(COLOR_BLACK, COLOR_BLACK);
+        break;
+    case '7':
+        SetPrintColor(COLOR_YELLOW, COLOR_BLACK);
+        break;
+
+    
+    default:
+        SetPrintColor(COLOR_CYAN, COLOR_BLACK);
+        break;
+    }
+
+    ClearPrint();
+}

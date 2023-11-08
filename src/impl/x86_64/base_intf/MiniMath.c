@@ -1,6 +1,8 @@
 #include "MiniMath.h"
 #include "print.h"
 
+#include "asmCompp.h"
+
 int_64 DivFlor(int a, int b)
 {
 
@@ -93,6 +95,7 @@ int_64 Abs(int a)
 
 int ProcessString(char* string)
 {
+    
     int link = 0;
     int link_end = 0;
     int prior = 0;
@@ -105,8 +108,10 @@ int ProcessString(char* string)
     int err = 0;
 
     MinusCollapse(string);
+
     do
     {
+
         if (Find(string, '(', 0) == -1) {
             break;
         }

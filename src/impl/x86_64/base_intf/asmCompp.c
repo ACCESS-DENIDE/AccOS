@@ -2,6 +2,10 @@
 
 void HaltCPU(){
 
-   asm("hlt");
+   do
+   {
+      /* code */
+   } while (1);
+   
 
 }

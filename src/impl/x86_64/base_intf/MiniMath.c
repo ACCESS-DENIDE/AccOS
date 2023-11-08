@@ -151,8 +151,7 @@ int ProcessString(char* string)
         
 
         err=SimpleProcess(buff);
-
-        if (err <-1) {
+        if (err < 0) {
             return err;
         }
 
@@ -210,8 +209,7 @@ int ProcessString(char* string)
     } while (1);
 
     err = SimpleProcess(string);
-
-    if (err <0) {
+    if (err < 0) {
         return err;
     }
 
@@ -291,6 +289,7 @@ int SimpleProcess(char* string)
 
         if (ret != -1) {
             err = ProcessExp(string, ret);
+            HaltCPU();
             if (err < 0) {
                 return err;
             }
@@ -381,6 +380,7 @@ int ProcessExp(char* string, int sign)
 
         case '/':
             if (b == 0) {
+                
                 return -1;
             }
             ans = IntDiv(a, b);

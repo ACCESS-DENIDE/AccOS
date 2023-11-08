@@ -102,7 +102,9 @@ void OnKeyEvent(uint_8 event_code)
                         case 54:
                             new_chr=94;
                             break;
-                        
+                         case 56:
+                            new_chr=42;
+                            break;
                         default:
                              new_chr-=32;
                             break;

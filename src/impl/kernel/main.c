@@ -59,16 +59,16 @@ void kernel_main_c(){
             buff[cou+1]=')';
             buff[cou+2]='\0';
 	        err= ProcessString(buff);
-	        if (err <0) {
+	        if (err < 0) {
                 switch (err)
                 {
                 case(-1):
                      PrintString("Err. Zero division");
-                PrintNewLine();
+                    PrintNewLine();
                     break;
                 case(-2):
                     PrintString("Err. Int overflow");
-                PrintNewLine();
+                     PrintNewLine();
                     break;
                 default:
                     break;
